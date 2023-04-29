@@ -1,13 +1,17 @@
+//Modify your URL here
+var hostURL = "YOUR URL";
+//TOGGLE for Shorters
+var use1pt = true;
+// your bot token
+var bot_token = 'YOUR_BOT_TOKEN'
+
 const fs = require("fs");
 const express = require("express");
 var cors = require('cors');
 var bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const TelegramBot = require('node-telegram-bot-api');
-const bot = new TelegramBot(process.env["bot"],
-{
-	polling: true
-});
+const bot = new TelegramBot(bot_token,{ polling: true});
 var jsonParser = bodyParser.json(
 {
 	limit: 1024 * 1024 * 20,
@@ -24,13 +28,6 @@ app.use(jsonParser);
 app.use(urlencodedParser);
 app.use(cors());
 app.set("view engine", "ejs");
-
-//Modify your URL here
-var hostURL = "YOUR URL";
-//TOGGLE for Shorters
-var use1pt = true;
-
-
 
 app.get("/w/:path/:uri", (req, res) =>
 {
@@ -94,7 +91,7 @@ app.get("/c/:path/:uri", (req, res) =>
 bot.on('message', async(msg) => {
 	const chatId = msg.chat.id;
 
-	if (msg ? .reply_to_message ? .text == "🌐 Enter Your URL") {
+	if (msg?.reply_to_message?.text == "🌐 Enter Your URL") {
 		createLink(chatId, msg.text);
 	}
 
@@ -136,7 +133,7 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
 });
 
 bot.on('polling_error', (error) => {
-	console.log(error.code); 
+	console.log(error); 
 });
 
 async function createLink(cid, msg) {
